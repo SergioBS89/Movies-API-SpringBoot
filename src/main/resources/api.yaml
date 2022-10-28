@@ -1,0 +1,2851 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8090
+  description: Generated server url
+tags:
+- name: Actuator
+  description: Monitor and interact
+  externalDocs:
+    description: Spring Boot Actuator Web API Documentation
+    url: https://docs.spring.io/spring-boot/docs/current/actuator-api/html/
+paths:
+  /api/actors:
+    get:
+      tags:
+      - actor-entity-controller
+      description: get-actor
+      operationId: getCollectionResource-actor-get_1
+      parameters:
+      - name: page
+        in: query
+        description: Zero-based page index (0..N)
+        required: false
+        schema:
+          minimum: 0
+          type: integer
+          default: 0
+      - name: size
+        in: query
+        description: The size of the page to be returned
+        required: false
+        schema:
+          minimum: 1
+          type: integer
+          default: 20
+      - name: sort
+        in: query
+        description: "Sorting criteria in the format: property,(asc|desc). Default\
+          \ sort order is ascending. Multiple sort criteria are supported."
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelEntityModelActor'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelEntityModelActor'
+            text/uri-list:
+              schema:
+                type: string
+    post:
+      tags:
+      - actor-entity-controller
+      description: create-actor
+      operationId: postCollectionResource-actor-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActorRequestBody'
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelActor'
+  /api/actors/search/name:
+    get:
+      tags:
+      - actor-search-controller
+      operationId: executeSearch-actor-get
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelEntityModelActor'
+        "404":
+          description: Not Found
+  /api/actors/{id}:
+    get:
+      tags:
+      - actor-entity-controller
+      description: get-actor
+      operationId: getItemResource-actor-get
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelActor'
+        "404":
+          description: Not Found
+    put:
+      tags:
+      - actor-entity-controller
+      description: update-actor
+      operationId: putItemResource-actor-put
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActorRequestBody'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelActor'
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelActor'
+        "204":
+          description: No Content
+    delete:
+      tags:
+      - actor-entity-controller
+      description: delete-actor
+      operationId: deleteItemResource-actor-delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+    patch:
+      tags:
+      - actor-entity-controller
+      description: patch-actor
+      operationId: patchItemResource-actor-patch
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActorRequestBody'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelActor'
+        "204":
+          description: No Content
+  /api/actors/{id}/title:
+    get:
+      tags:
+      - actor-property-reference-controller
+      description: get-title-by-actor-Id
+      operationId: followPropertyReference-actor-get_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelTitle'
+            text/uri-list:
+              schema:
+                type: string
+        "404":
+          description: Not Found
+    put:
+      tags:
+      - actor-property-reference-controller
+      description: update-title-by-actor-Id
+      operationId: createPropertyReference-actor-put
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          application/x-spring-data-compact+json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          text/uri-list:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelTitle'
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelTitle'
+        "204":
+          description: No Content
+    delete:
+      tags:
+      - actor-property-reference-controller
+      description: delete-title-by-actor-Id
+      operationId: deletePropertyReference-actor-delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+    patch:
+      tags:
+      - actor-property-reference-controller
+      description: patch-title-by-actor-Id
+      operationId: createPropertyReference-actor-patch
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          application/x-spring-data-compact+json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          text/uri-list:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelTitle'
+        "204":
+          description: No Content
+  /api/actors/{id}/title/{propertyId}:
+    get:
+      tags:
+      - actor-property-reference-controller
+      description: get-title-by-actor-Id
+      operationId: followPropertyReference-actor-get
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: propertyId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelTitle'
+        "404":
+          description: Not Found
+    delete:
+      tags:
+      - actor-property-reference-controller
+      description: delete-title-by-actor-Id
+      operationId: deletePropertyReferenceId-actor-delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: propertyId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+  /api/categories:
+    get:
+      tags:
+      - category-entity-controller
+      description: get-category
+      operationId: getCollectionResource-category-get_1
+      parameters:
+      - name: page
+        in: query
+        description: Zero-based page index (0..N)
+        required: false
+        schema:
+          minimum: 0
+          type: integer
+          default: 0
+      - name: size
+        in: query
+        description: The size of the page to be returned
+        required: false
+        schema:
+          minimum: 1
+          type: integer
+          default: 20
+      - name: sort
+        in: query
+        description: "Sorting criteria in the format: property,(asc|desc). Default\
+          \ sort order is ascending. Multiple sort criteria are supported."
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelEntityModelCategory'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelEntityModelCategory'
+            text/uri-list:
+              schema:
+                type: string
+    post:
+      tags:
+      - category-entity-controller
+      description: create-category
+      operationId: postCollectionResource-category-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryRequestBody'
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelCategory'
+  /api/categories/search/best:
+    get:
+      tags:
+      - category-search-controller
+      operationId: executeSearch-category-get
+      parameters:
+      - name: id
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        description: Zero-based page index (0..N)
+        required: false
+        schema:
+          minimum: 0
+          type: integer
+          default: 0
+      - name: size
+        in: query
+        description: The size of the page to be returned
+        required: false
+        schema:
+          minimum: 1
+          type: integer
+          default: 20
+      - name: sort
+        in: query
+        description: "Sorting criteria in the format: property,(asc|desc). Default\
+          \ sort order is ascending. Multiple sort criteria are supported."
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelEntityModelCategory'
+        "404":
+          description: Not Found
+  /api/categories/search/name:
+    get:
+      tags:
+      - category-search-controller
+      operationId: executeSearch-category-get_1
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelEntityModelCategory'
+        "404":
+          description: Not Found
+  /api/categories/{id}:
+    get:
+      tags:
+      - category-entity-controller
+      description: get-category
+      operationId: getItemResource-category-get
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelCategory'
+        "404":
+          description: Not Found
+    put:
+      tags:
+      - category-entity-controller
+      description: update-category
+      operationId: putItemResource-category-put
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryRequestBody'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelCategory'
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelCategory'
+        "204":
+          description: No Content
+    delete:
+      tags:
+      - category-entity-controller
+      description: delete-category
+      operationId: deleteItemResource-category-delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+    patch:
+      tags:
+      - category-entity-controller
+      description: patch-category
+      operationId: patchItemResource-category-patch
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryRequestBody'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelCategory'
+        "204":
+          description: No Content
+  /api/categories/{id}/title:
+    get:
+      tags:
+      - category-property-reference-controller
+      description: get-title-by-category-Id
+      operationId: followPropertyReference-category-get_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelTitle'
+            text/uri-list:
+              schema:
+                type: string
+        "404":
+          description: Not Found
+    put:
+      tags:
+      - category-property-reference-controller
+      description: update-title-by-category-Id
+      operationId: createPropertyReference-category-put
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          application/x-spring-data-compact+json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          text/uri-list:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelTitle'
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelTitle'
+        "204":
+          description: No Content
+    delete:
+      tags:
+      - category-property-reference-controller
+      description: delete-title-by-category-Id
+      operationId: deletePropertyReference-category-delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+    patch:
+      tags:
+      - category-property-reference-controller
+      description: patch-title-by-category-Id
+      operationId: createPropertyReference-category-patch
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          application/x-spring-data-compact+json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          text/uri-list:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelTitle'
+        "204":
+          description: No Content
+  /api/categories/{id}/title/{propertyId}:
+    get:
+      tags:
+      - category-property-reference-controller
+      description: get-title-by-category-Id
+      operationId: followPropertyReference-category-get
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: propertyId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelTitle'
+        "404":
+          description: Not Found
+    delete:
+      tags:
+      - category-property-reference-controller
+      description: delete-title-by-category-Id
+      operationId: deletePropertyReferenceId-category-delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: propertyId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+  /api/directors:
+    get:
+      tags:
+      - director-entity-controller
+      description: get-director
+      operationId: getCollectionResource-director-get_1
+      parameters:
+      - name: page
+        in: query
+        description: Zero-based page index (0..N)
+        required: false
+        schema:
+          minimum: 0
+          type: integer
+          default: 0
+      - name: size
+        in: query
+        description: The size of the page to be returned
+        required: false
+        schema:
+          minimum: 1
+          type: integer
+          default: 20
+      - name: sort
+        in: query
+        description: "Sorting criteria in the format: property,(asc|desc). Default\
+          \ sort order is ascending. Multiple sort criteria are supported."
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelEntityModelDirector'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelEntityModelDirector'
+            text/uri-list:
+              schema:
+                type: string
+    post:
+      tags:
+      - director-entity-controller
+      description: create-director
+      operationId: postCollectionResource-director-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DirectorRequestBody'
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelDirector'
+  /api/directors/search/name:
+    get:
+      tags:
+      - director-search-controller
+      operationId: executeSearch-director-get
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelEntityModelDirector'
+        "404":
+          description: Not Found
+  /api/directors/{id}:
+    get:
+      tags:
+      - director-entity-controller
+      description: get-director
+      operationId: getItemResource-director-get
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelDirector'
+        "404":
+          description: Not Found
+    put:
+      tags:
+      - director-entity-controller
+      description: update-director
+      operationId: putItemResource-director-put
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DirectorRequestBody'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelDirector'
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelDirector'
+        "204":
+          description: No Content
+    delete:
+      tags:
+      - director-entity-controller
+      description: delete-director
+      operationId: deleteItemResource-director-delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+    patch:
+      tags:
+      - director-entity-controller
+      description: patch-director
+      operationId: patchItemResource-director-patch
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DirectorRequestBody'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelDirector'
+        "204":
+          description: No Content
+  /api/directors/{id}/title:
+    get:
+      tags:
+      - director-property-reference-controller
+      description: get-title-by-director-Id
+      operationId: followPropertyReference-director-get_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelTitle'
+            text/uri-list:
+              schema:
+                type: string
+        "404":
+          description: Not Found
+    put:
+      tags:
+      - director-property-reference-controller
+      description: update-title-by-director-Id
+      operationId: createPropertyReference-director-put
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          application/x-spring-data-compact+json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          text/uri-list:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelTitle'
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelTitle'
+        "204":
+          description: No Content
+    delete:
+      tags:
+      - director-property-reference-controller
+      description: delete-title-by-director-Id
+      operationId: deletePropertyReference-director-delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+    patch:
+      tags:
+      - director-property-reference-controller
+      description: patch-title-by-director-Id
+      operationId: createPropertyReference-director-patch
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          application/x-spring-data-compact+json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          text/uri-list:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelTitle'
+        "204":
+          description: No Content
+  /api/directors/{id}/title/{propertyId}:
+    get:
+      tags:
+      - director-property-reference-controller
+      description: get-title-by-director-Id
+      operationId: followPropertyReference-director-get
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: propertyId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelTitle'
+        "404":
+          description: Not Found
+    delete:
+      tags:
+      - director-property-reference-controller
+      description: delete-title-by-director-Id
+      operationId: deletePropertyReferenceId-director-delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: propertyId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+  /api/profile:
+    get:
+      tags:
+      - profile-controller
+      operationId: listAllFormsOfMetadata_1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RepresentationModelObject'
+  /api/profile/actors:
+    get:
+      tags:
+      - profile-controller
+      operationId: descriptor_1_1_1
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+            application/alps+json:
+              schema:
+                type: string
+            application/schema+json:
+              schema:
+                $ref: '#/components/schemas/JsonSchema'
+  /api/profile/categories:
+    get:
+      tags:
+      - profile-controller
+      operationId: descriptor_1_1_2
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+            application/alps+json:
+              schema:
+                type: string
+            application/schema+json:
+              schema:
+                $ref: '#/components/schemas/JsonSchema'
+  /api/profile/directors:
+    get:
+      tags:
+      - profile-controller
+      operationId: descriptor_1_1_3
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+            application/alps+json:
+              schema:
+                type: string
+            application/schema+json:
+              schema:
+                $ref: '#/components/schemas/JsonSchema'
+  /api/profile/titles:
+    get:
+      tags:
+      - profile-controller
+      operationId: descriptor_1_1_4
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+            application/alps+json:
+              schema:
+                type: string
+            application/schema+json:
+              schema:
+                $ref: '#/components/schemas/JsonSchema'
+  /api/titles:
+    get:
+      tags:
+      - title-entity-controller
+      description: get-title
+      operationId: getCollectionResource-title-get_1
+      parameters:
+      - name: page
+        in: query
+        description: Zero-based page index (0..N)
+        required: false
+        schema:
+          minimum: 0
+          type: integer
+          default: 0
+      - name: size
+        in: query
+        description: The size of the page to be returned
+        required: false
+        schema:
+          minimum: 1
+          type: integer
+          default: 20
+      - name: sort
+        in: query
+        description: "Sorting criteria in the format: property,(asc|desc). Default\
+          \ sort order is ascending. Multiple sort criteria are supported."
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelEntityModelTitle'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelEntityModelTitle'
+            text/uri-list:
+              schema:
+                type: string
+    post:
+      tags:
+      - title-entity-controller
+      description: create-title
+      operationId: postCollectionResource-title-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TitleRequestBody'
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelTitle'
+  /api/titles/search/best:
+    get:
+      tags:
+      - title-search-controller
+      operationId: executeSearch-title-get
+      parameters:
+      - name: page
+        in: query
+        description: Zero-based page index (0..N)
+        required: false
+        schema:
+          minimum: 0
+          type: integer
+          default: 0
+      - name: size
+        in: query
+        description: The size of the page to be returned
+        required: false
+        schema:
+          minimum: 1
+          type: integer
+          default: 20
+      - name: sort
+        in: query
+        description: "Sorting criteria in the format: property,(asc|desc). Default\
+          \ sort order is ascending. Multiple sort criteria are supported."
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelEntityModelTitle'
+        "404":
+          description: Not Found
+  /api/titles/search/name:
+    get:
+      tags:
+      - title-search-controller
+      operationId: executeSearch-title-get_1
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelEntityModelTitle'
+        "404":
+          description: Not Found
+  /api/titles/{id}:
+    get:
+      tags:
+      - title-entity-controller
+      description: get-title
+      operationId: getItemResource-title-get
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelTitle'
+        "404":
+          description: Not Found
+    put:
+      tags:
+      - title-entity-controller
+      description: update-title
+      operationId: putItemResource-title-put
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TitleRequestBody'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelTitle'
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelTitle'
+        "204":
+          description: No Content
+    delete:
+      tags:
+      - title-entity-controller
+      description: delete-title
+      operationId: deleteItemResource-title-delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+    patch:
+      tags:
+      - title-entity-controller
+      description: patch-title
+      operationId: patchItemResource-title-patch
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TitleRequestBody'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelTitle'
+        "204":
+          description: No Content
+  /api/titles/{id}/actor:
+    get:
+      tags:
+      - title-property-reference-controller
+      description: get-actor-by-title-Id
+      operationId: followPropertyReference-title-get_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelActor'
+            text/uri-list:
+              schema:
+                type: string
+        "404":
+          description: Not Found
+    put:
+      tags:
+      - title-property-reference-controller
+      description: update-actor-by-title-Id
+      operationId: createPropertyReference-title-put
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          application/x-spring-data-compact+json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          text/uri-list:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelActor'
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelActor'
+        "204":
+          description: No Content
+    delete:
+      tags:
+      - title-property-reference-controller
+      description: delete-actor-by-title-Id
+      operationId: deletePropertyReference-title-delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+    patch:
+      tags:
+      - title-property-reference-controller
+      description: patch-actor-by-title-Id
+      operationId: createPropertyReference-title-patch
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          application/x-spring-data-compact+json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          text/uri-list:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelActor'
+        "204":
+          description: No Content
+  /api/titles/{id}/actor/{propertyId}:
+    get:
+      tags:
+      - title-property-reference-controller
+      description: get-actor-by-title-Id
+      operationId: followPropertyReference-title-get
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: propertyId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelActor'
+        "404":
+          description: Not Found
+    delete:
+      tags:
+      - title-property-reference-controller
+      description: delete-actor-by-title-Id
+      operationId: deletePropertyReferenceId-title-delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: propertyId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+  /api/titles/{id}/category:
+    get:
+      tags:
+      - title-property-reference-controller
+      description: get-category-by-title-Id
+      operationId: followPropertyReference-title-get_2_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelCategory'
+            text/uri-list:
+              schema:
+                type: string
+        "404":
+          description: Not Found
+    put:
+      tags:
+      - title-property-reference-controller
+      description: update-category-by-title-Id
+      operationId: createPropertyReference-title-put_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          application/x-spring-data-compact+json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          text/uri-list:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelCategory'
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelCategory'
+        "204":
+          description: No Content
+    delete:
+      tags:
+      - title-property-reference-controller
+      description: delete-category-by-title-Id
+      operationId: deletePropertyReference-title-delete_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+    patch:
+      tags:
+      - title-property-reference-controller
+      description: patch-category-by-title-Id
+      operationId: createPropertyReference-title-patch_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          application/x-spring-data-compact+json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          text/uri-list:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelCategory'
+        "204":
+          description: No Content
+  /api/titles/{id}/category/{propertyId}:
+    get:
+      tags:
+      - title-property-reference-controller
+      description: get-category-by-title-Id
+      operationId: followPropertyReference-title-get_2
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: propertyId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelCategory'
+        "404":
+          description: Not Found
+    delete:
+      tags:
+      - title-property-reference-controller
+      description: delete-category-by-title-Id
+      operationId: deletePropertyReferenceId-title-delete_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: propertyId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+  /api/titles/{id}/director:
+    get:
+      tags:
+      - title-property-reference-controller
+      description: get-director-by-title-Id
+      operationId: followPropertyReference-title-get_3_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelDirector'
+            text/uri-list:
+              schema:
+                type: string
+        "404":
+          description: Not Found
+    put:
+      tags:
+      - title-property-reference-controller
+      description: update-director-by-title-Id
+      operationId: createPropertyReference-title-put_2
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          application/x-spring-data-compact+json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          text/uri-list:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelDirector'
+        "201":
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelDirector'
+        "204":
+          description: No Content
+    delete:
+      tags:
+      - title-property-reference-controller
+      description: delete-director-by-title-Id
+      operationId: deletePropertyReference-title-delete_2
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+    patch:
+      tags:
+      - title-property-reference-controller
+      description: patch-director-by-title-Id
+      operationId: createPropertyReference-title-patch_2
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          application/x-spring-data-compact+json:
+            schema:
+              $ref: '#/components/schemas/CollectionModelObject'
+          text/uri-list:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelDirector'
+        "204":
+          description: No Content
+  /api/titles/{id}/director/{propertyId}:
+    get:
+      tags:
+      - title-property-reference-controller
+      description: get-director-by-title-Id
+      operationId: followPropertyReference-title-get_3
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: propertyId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelDirector'
+        "404":
+          description: Not Found
+    delete:
+      tags:
+      - title-property-reference-controller
+      description: delete-director-by-title-Id
+      operationId: deletePropertyReferenceId-title-delete_2
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: propertyId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+  /manage/loggers/{name}:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'loggers-name'
+      operationId: loggers-name_2
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+    post:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'loggers-name'
+      operationId: loggers-name
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              enum:
+              - TRACE
+              - DEBUG
+              - INFO
+              - WARN
+              - ERROR
+              - FATAL
+              - "OFF"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                type: object
+  /manage:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator root web endpoint
+      operationId: links
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    $ref: '#/components/schemas/Link'
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    $ref: '#/components/schemas/Link'
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    $ref: '#/components/schemas/Link'
+  /manage/threaddump:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'threaddump'
+      operationId: threaddump_2
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain;charset=UTF-8:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+  /manage/scheduledtasks:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'scheduledtasks'
+      operationId: scheduledtasks
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+  /manage/metrics:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'metrics'
+      operationId: metrics
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+  /manage/metrics/{requiredMetricName}:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'metrics-requiredMetricName'
+      operationId: metrics-requiredMetricName
+      parameters:
+      - name: requiredMetricName
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+  /manage/mappings:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'mappings'
+      operationId: mappings
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+  /manage/loggers:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'loggers'
+      operationId: loggers
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+  /manage/info:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'info'
+      operationId: info
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+  /manage/heapdump:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'heapdump'
+      operationId: heapdump
+      responses:
+        "200":
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: object
+  /manage/health:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'health'
+      operationId: health
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+  /manage/health/**:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'health-path'
+      operationId: health-path
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+  /manage/env:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'env'
+      operationId: env
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+  /manage/env/{toMatch}:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'env-toMatch'
+      operationId: env-toMatch
+      parameters:
+      - name: toMatch
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+  /manage/configprops:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'configprops'
+      operationId: configprops
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+  /manage/configprops/{prefix}:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'configprops-prefix'
+      operationId: configprops-prefix
+      parameters:
+      - name: prefix
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+  /manage/conditions:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'conditions'
+      operationId: conditions
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+  /manage/caches:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'caches'
+      operationId: caches
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+    delete:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'caches'
+      operationId: caches_2
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                type: object
+  /manage/caches/{cache}:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'caches-cache'
+      operationId: caches-cache
+      parameters:
+      - name: cache
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+    delete:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'caches-cache'
+      operationId: caches-cache_2
+      parameters:
+      - name: cache
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+  /manage/beans:
+    get:
+      tags:
+      - Actuator
+      summary: Actuator web endpoint 'beans'
+      operationId: beans
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+  /api/recommend/category/{id}:
+    get:
+      tags:
+      - recommend-controller
+      operationId: bestInCategory
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: top
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                type: object
+  /api/recommend/best:
+    get:
+      tags:
+      - recommend-controller
+      operationId: bestTitles
+      parameters:
+      - name: top
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                type: object
+components:
+  schemas:
+    AbstractJsonSchemaPropertyObject:
+      type: object
+      properties:
+        title:
+          type: string
+        readOnly:
+          type: boolean
+    Item:
+      type: object
+      properties:
+        type:
+          type: string
+        properties:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AbstractJsonSchemaPropertyObject'
+        requiredProperties:
+          type: array
+          items:
+            type: string
+    JsonSchema:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        properties:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AbstractJsonSchemaPropertyObject'
+        requiredProperties:
+          type: array
+          items:
+            type: string
+        definitions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Item'
+        type:
+          type: string
+        $schema:
+          type: string
+    Link:
+      type: object
+      properties:
+        href:
+          type: string
+        hreflang:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+        deprecation:
+          type: string
+        profile:
+          type: string
+        name:
+          type: string
+        templated:
+          type: boolean
+    RepresentationModelObject:
+      type: object
+      properties:
+        _links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+    EntityModelTitle:
+      required:
+      - dateAdded
+      - duration
+      - name
+      - rating
+      - releaseYear
+      type: object
+      properties:
+        name:
+          type: string
+        dateAdded:
+          type: string
+        releaseYear:
+          type: string
+        rating:
+          type: string
+        duration:
+          type: string
+        description:
+          type: string
+        userRating:
+          maximum: 10
+          minimum: 0
+          type: number
+          format: float
+        numRatings:
+          minimum: 0
+          type: integer
+          format: int32
+        _links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+    PageMetadata:
+      type: object
+      properties:
+        size:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int64
+    PagedModelEntityModelTitle:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            titles:
+              type: array
+              items:
+                $ref: '#/components/schemas/EntityModelTitle'
+        _links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+        page:
+          $ref: '#/components/schemas/PageMetadata'
+    CollectionModelDirector:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            directors:
+              type: array
+              items:
+                $ref: '#/components/schemas/DirectorResponse'
+        _links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+    CollectionModelObject:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            objects:
+              type: array
+              items:
+                type: object
+        _links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+    CollectionModelCategory:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            categories:
+              type: array
+              items:
+                $ref: '#/components/schemas/CategoryResponse'
+        _links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+    CollectionModelActor:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            actors:
+              type: array
+              items:
+                $ref: '#/components/schemas/ActorResponse'
+        _links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+    CollectionModelEntityModelTitle:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            titles:
+              type: array
+              items:
+                $ref: '#/components/schemas/EntityModelTitle'
+        _links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+    EntityModelCategory:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+        _links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+    PagedModelEntityModelCategory:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            categories:
+              type: array
+              items:
+                $ref: '#/components/schemas/EntityModelCategory'
+        _links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+        page:
+          $ref: '#/components/schemas/PageMetadata'
+    CollectionModelTitle:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            titles:
+              type: array
+              items:
+                $ref: '#/components/schemas/TitleResponse'
+        _links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+    CollectionModelEntityModelCategory:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            categories:
+              type: array
+              items:
+                $ref: '#/components/schemas/EntityModelCategory'
+        _links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+    EntityModelActor:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+        _links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+    PagedModelEntityModelActor:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            actors:
+              type: array
+              items:
+                $ref: '#/components/schemas/EntityModelActor'
+        _links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+        page:
+          $ref: '#/components/schemas/PageMetadata'
+    CollectionModelEntityModelActor:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            actors:
+              type: array
+              items:
+                $ref: '#/components/schemas/EntityModelActor'
+        _links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+    EntityModelDirector:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+        _links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+    PagedModelEntityModelDirector:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            directors:
+              type: array
+              items:
+                $ref: '#/components/schemas/EntityModelDirector'
+        _links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+        page:
+          $ref: '#/components/schemas/PageMetadata'
+    CollectionModelEntityModelDirector:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            directors:
+              type: array
+              items:
+                $ref: '#/components/schemas/EntityModelDirector'
+        _links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+    ActorRequestBody:
+      required:
+      - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        title:
+          type: array
+          items:
+            type: string
+    CategoryRequestBody:
+      required:
+      - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        title:
+          type: array
+          items:
+            type: string
+    DirectorRequestBody:
+      required:
+      - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        title:
+          type: array
+          items:
+            type: string
+    TitleRequestBody:
+      required:
+      - dateAdded
+      - duration
+      - name
+      - rating
+      - releaseYear
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        director:
+          type: array
+          items:
+            type: string
+        actor:
+          type: array
+          items:
+            type: string
+        category:
+          type: array
+          items:
+            type: string
+        dateAdded:
+          type: string
+        releaseYear:
+          type: string
+        rating:
+          type: string
+        duration:
+          type: string
+        description:
+          type: string
+        userRating:
+          maximum: 10
+          minimum: 0
+          type: number
+          format: float
+        numRatings:
+          minimum: 0
+          type: integer
+          format: int32
+    ActorResponse:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+    CategoryResponse:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+    DirectorResponse:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+    TitleResponse:
+      required:
+      - dateAdded
+      - duration
+      - name
+      - rating
+      - releaseYear
+      type: object
+      properties:
+        name:
+          type: string
+        dateAdded:
+          type: string
+        releaseYear:
+          type: string
+        rating:
+          type: string
+        duration:
+          type: string
+        description:
+          type: string
+        userRating:
+          maximum: 10
+          minimum: 0
+          type: number
+          format: float
+        numRatings:
+          minimum: 0
+          type: integer
+          format: int32
+  securitySchemes:
+    netflixAuth:
+      type: http
+      in: header
+      scheme: basic
